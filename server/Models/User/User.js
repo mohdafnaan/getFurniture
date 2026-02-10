@@ -27,13 +27,8 @@ const userSchema = new mongoose.Schema(
 
     address: {
       type: String,
+      required : true
     },
-
-    profileImage: {
-      type: String,
-      default: "",
-    },
-
     favorites: [
       {
         type: String,
