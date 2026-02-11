@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
-
+import cors from "cors";
 // ================================     IMPORTS   ================================================//
 // import database connection
 import "./utils/dbConnect.js";
@@ -16,9 +16,16 @@ import adminPrivateRoutes from "./controllers/private/admin-private.js";
 // import user private routes
 import userPrivateRoutes from "./controllers/private/user-private.js";
 // ================================================================================//
-
+let corsObject = {
+  origin: ["http://localhost:5173"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+};
 const app = express();
 app.use(express.json())
+app.use(cors(corsObject));
+app.use("/uploads", express.static("uploads"));
 const PORT = process.env.PORT || 3000;
 
 app.get("/",(req,res)=>{

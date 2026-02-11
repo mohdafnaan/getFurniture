@@ -32,7 +32,7 @@ router.post("/add-product", upload.array("images", 2), async (req, res) => {
     }
     const images = req.files.map((file) => ({
       filename: file.filename,
-      path: file.path,
+      path: `uploads/products/${file.filename}`,
       mimetype: file.mimetype,
     }));
 
@@ -68,7 +68,10 @@ router.delete("/delete-product/:id", async (req, res) => {
     // Delete images from uploads folder
     if (product.images && product.images.length > 0) {
       product.images.forEach((img) => {
-        const filePath = img.path;
+        // Handle both legacy absolute paths and new relative paths
+        const filePath = path.isAbsolute(img.path) 
+          ? img.path 
+          : path.join(process.cwd(), img.path);
 
         fs.unlink(filePath, (err) => {
           if (err) {
@@ -94,7 +97,20 @@ router.delete("/delete-product/:id", async (req, res) => {
 router.get("/get-all-products", async (req, res) => {
   try {
     let products = await productModel.find({},{images:1,manufacturerName:1,factoryName:1,modelName:1,priceRange:1});
-    res.status(200).json(products);
+    
+    // Normalize image paths for display
+    const cleanedProducts = products.map(p => {
+        const product = p.toObject();
+        if(product.images && product.images.length > 0) {
+            product.images = product.images.map(img => ({
+                ...img,
+                path: `uploads/products/${img.filename}` 
+            }));
+        }
+        return product;
+    });
+    
+    res.status(200).json(cleanedProducts);
   } catch (error) {
     console.log(error);
     res.status(500).json({ error });
@@ -107,7 +123,20 @@ router.get("/products-man/:phone", async (req, res) => {
   try {
     let { phone } = req.params;
     let products = await productModel.find({ manufacturerPhone: phone  });
-    res.status(200).json(products);
+    
+    // Normalize image paths
+    const cleanedProducts = products.map(p => {
+        const product = p.toObject();
+        if(product.images && product.images.length > 0) {
+            product.images = product.images.map(img => ({
+                ...img,
+                path: `uploads/products/${img.filename}` 
+            }));
+        }
+        return product;
+    });
+
+    res.status(200).json(cleanedProducts);
   } catch (error) {
     console.log(error);
     res.status(500).json({ error });
@@ -118,8 +147,18 @@ router.get("/products-man/:phone", async (req, res) => {
 //get all orders
 router.get("/getallorders",async (req,res)=>{
   try {
-    let orders = await orderModel.find({status : "pending"})
-    res.status(200).json(orders)
+    let orders = await orderModel.find({status : "pending"});
+    
+    // Normalize image paths
+    const cleanedOrders = orders.map(o => {
+        const order = o.toObject();
+        if(order.productImage) {
+            order.productImage.path = `uploads/products/${order.productImage.filename}`;
+        }
+        return order;
+    });
+
+    res.status(200).json(cleanedOrders)
   } catch (error) {
     console.log(error)
     res.status(500).json(error)

@@ -84,6 +84,17 @@ router.post("/place-order/:productId", async (req, res) => {
       return res.status(400).json({ message: "Product not found" });
     }
 
+    // Check for existing pending order
+    const existingOrder = await orderModel.findOne({ 
+        userId: user._id, 
+        productId: productId, 
+        status: { $in: ['pending', 'contacted', 'in-process'] } // Allow re-ordering only if previous order is completed/cancelled
+    });
+    
+    if (existingOrder) {
+        return res.status(400).json({ message: "Order already placed" });
+    }
+
     // got product image
     const productImage = product.images?.[0] || null;
 
@@ -114,7 +125,20 @@ router.get("/products", async (req, res) => {
     let products = await productModel
       .find()
       .select("modelName images priceRange factoryName description category");
-    res.status(200).json(products);
+    
+    // Normalize image paths
+    const cleanedProducts = products.map(p => {
+        const product = p.toObject();
+        if(product.images && product.images.length > 0) {
+            product.images = product.images.map(img => ({
+                ...img,
+                path: `uploads/products/${img.filename}` 
+            }));
+        }
+        return product;
+    });
+
+    res.status(200).json(cleanedProducts);
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
@@ -128,7 +152,20 @@ router.get("/products/:category", async (req, res) => {
     let products = await productModel
       .find({ $or: [{ category }, { modelName: category }] })
       .select("modelName images priceRange factoryName description category");
-    res.status(200).json(products);
+      
+    // Normalize image paths
+    const cleanedProducts = products.map(p => {
+        const product = p.toObject();
+        if(product.images && product.images.length > 0) {
+            product.images = product.images.map(img => ({
+                ...img,
+                path: `uploads/products/${img.filename}` 
+            }));
+        }
+        return product;
+    });
+
+    res.status(200).json(cleanedProducts);
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
