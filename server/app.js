@@ -2,9 +2,18 @@ import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
 
-
+// ================================     IMPORTS   ================================================//
 // import database connection
 import "./utils/dbConnect.js";
+// import public routes
+import userPublicRoutes from "./controllers/public/userPublic.js";
+//import admin public routes
+import adminPublicRoutes from "./controllers/public/adminPublic.js";
+// import auth middleware
+import authMiddleware from "./auth/auth.js";
+// import admin private routes
+import adminPrivateRoutes from "./controllers/private/admin-private.js";
+// ================================================================================//
 
 const app = express();
 app.use(express.json())
@@ -18,7 +27,9 @@ app.get("/",(req,res)=>{
         res.status(500).json({error})
     }
 })
-
+app.use("/public",userPublicRoutes);
+app.use("/public",adminPublicRoutes);
+app.use("/private",authMiddleware,adminPrivateRoutes);
 app.listen(PORT,()=>{
     console.log(`Server running on port ${PORT}`)
 })

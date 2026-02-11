@@ -27,27 +27,27 @@ const userSchema = new mongoose.Schema(
 
     address: {
       type: String,
-      required : true
+      required: true,
     },
     favorites: [
       {
         type: String,
-        productId : "",
-        productName : "",
-        productImage : "",
-        productPrice : "",
+        productId: "",
+        productName: "",
+        productImage: "",
+        productPrice: "",
       },
     ],
-    isVerified : {
-        type : Boolean,
-        default : false
+    isVerified: {
+      type: Boolean,
+      default: false,
     },
-    emailOtp : {
-        type : Number,
-        default : null
-    }
+    emailOtp: {
+      type: Number,
+      default: null,
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const userModel = mongoose.model("User", userSchema);

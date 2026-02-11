@@ -1,7 +1,9 @@
 import express from "express";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import userModel from "../../Models/User/User.js";
 import manufacturerModel from "../../Models/Manufacturers/Man.js";
+import sendMail from "../../utils/mailer.js";
 
 const router = express.Router();
 
@@ -17,8 +19,9 @@ router.post("/user-register",async (req,res)=>{
         }
         let bPass = await bcrypt.hash(password,10);
         let otp = Math.floor(100000 + Math.random() * 900000);
-        let user = await userModel.create({name,email,phone,password:bPass,address,emailOtp:otp});
-        res.status(201).json({message:"User created successfully"})
+        await sendMail(email,"Email Verification OTP",`Your OTP for email verification is ${otp}`);
+        await userModel.create({name,email,phone,password:bPass,address,emailOtp:otp});
+        res.status(201).json({message:`User created successfully Verification OTP sent to ${email}`})
     } catch (error) {
         console.log(error)
         res.status(500).json({error})
@@ -57,17 +60,20 @@ router.post("/user-login",async(req,res)=>{
             return res.status(400).json({message:"User not found"})
         }
         if(!user.isVerified){
-            return res.status(400).json({message:"User not verified"})
+            return res.status(400).json({message:"Verify your email before logging in"})
         }
         let isMatch = await bcrypt.compare(password,user.password);
         if(!isMatch){
             return res.status(400).json({message:"Invalid password"})
         }
-        res.status(200).json({message:"User logged in successfully"})
+        let token = jwt.sign({email:user.email},process.env.JWT_SECKEY,{expiresIn:"7d"});
+        res.status(200).json({message:"User logged in successfully",token})
     } catch (error) {
         console.log(error)
         res.status(500).json({error})
     }
 })
+
+router.post("/manufacturer-register",async (req,res)=>{})
 
 export default router;

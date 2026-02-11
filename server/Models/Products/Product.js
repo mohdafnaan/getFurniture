@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 const productSchema = new mongoose.Schema(
   {
     manufacturerId: {
-    type : String,
-    required : true 
+      type: String,
+      required: true,
     },
 
     modelName: {
@@ -29,24 +29,17 @@ const productSchema = new mongoose.Schema(
 
     images: [
       {
-        type: String,
+        filename: String,
+        path: String,
+        mimetype : String,
       },
     ],
-
-    dimensions: {
-      length: String,
-      breadth: String,
-      height: String,
-    },
-
-    materialsUsed: [String],
-
     isAvailable: {
       type: Boolean,
       default: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const productModel = mongoose.model("Product", productSchema);
