@@ -2,11 +2,18 @@ import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema(
   {
-    manufacturerId: {
+    manufacturerName: {
       type: String,
       required: true,
     },
-
+    manufacturerPhone : {
+      type : String,
+      required : true,
+    },
+    factoryName: {
+      type: String,
+      required: true,
+    },
     modelName: {
       type: String,
       required: true,
@@ -14,7 +21,7 @@ const productSchema = new mongoose.Schema(
 
     category: {
       type: String,
-      enum: ["sofa", "bed", "chair", "table", "cupboard", "other"],
+      enum: ["sofa", "bed", "chair", "table", "cupboard","other"],
       required: true,
     },
 

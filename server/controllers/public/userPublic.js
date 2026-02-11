@@ -2,7 +2,6 @@ import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import userModel from "../../Models/User/User.js";
-import manufacturerModel from "../../Models/Manufacturers/Man.js";
 import sendMail from "../../utils/mailer.js";
 
 const router = express.Router();
@@ -66,7 +65,7 @@ router.post("/user-login",async(req,res)=>{
         if(!isMatch){
             return res.status(400).json({message:"Invalid password"})
         }
-        let token = jwt.sign({email:user.email},process.env.JWT_SECKEY,{expiresIn:"7d"});
+        let token = jwt.sign({email:user.email,userId:user._id},process.env.JWT_SECKEY,{expiresIn:"7d"});
         res.status(200).json({message:"User logged in successfully",token})
     } catch (error) {
         console.log(error)

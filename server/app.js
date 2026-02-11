@@ -13,6 +13,8 @@ import adminPublicRoutes from "./controllers/public/adminPublic.js";
 import authMiddleware from "./auth/auth.js";
 // import admin private routes
 import adminPrivateRoutes from "./controllers/private/admin-private.js";
+// import user private routes
+import userPrivateRoutes from "./controllers/private/user-private.js";
 // ================================================================================//
 
 const app = express();
@@ -30,6 +32,7 @@ app.get("/",(req,res)=>{
 app.use("/public",userPublicRoutes);
 app.use("/public",adminPublicRoutes);
 app.use("/private",authMiddleware,adminPrivateRoutes);
+app.use("/private",authMiddleware,userPrivateRoutes);
 app.listen(PORT,()=>{
     console.log(`Server running on port ${PORT}`)
 })
