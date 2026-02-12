@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-import api from '../utils/api';
+import { useAuth } from '../../context/AuthContext';
+import api from '../../utils/api';
 import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
-import MainLayout from '../layouts/MainLayout';
+import MainLayout from '../../layouts/MainLayout';
 import { motion } from 'framer-motion';
 
-const Login = () => {
+const AdminLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { login } = useAuth();
@@ -15,9 +15,9 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await api.post('/public/user-login', { email, password });
+      const { data } = await api.post('/public/admin-login', { email, password });
       
-      login(data.token, 'user', data.user || null); 
+      login(data.token, 'admin', data.user || null); 
       
       toast.success(data.message || 'Logged in successfully');
     } catch (error) {
@@ -34,7 +34,7 @@ const Login = () => {
         className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md mt-10"
       >
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
-            User Login
+            Admin Login
         </h2>
         
         <form onSubmit={handleLogin} className="space-y-4">
@@ -62,17 +62,12 @@ const Login = () => {
             type="submit"
             className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
           >
-            Sign In
+            Admin Sign In
           </button>
         </form>
-
-        <div className="mt-4 text-center">
-            <span className="text-sm text-gray-600">Don't have an account? </span>
-            <Link to="/register" className="text-sm text-indigo-600 hover:text-indigo-500">Register</Link>
-        </div>
       </motion.div>
     </MainLayout>
   );
 };
 
-export default Login;
+export default AdminLogin;

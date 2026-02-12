@@ -10,6 +10,7 @@ import UserOrders from './pages/user/UserOrders';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminOrders from './pages/admin/AdminOrders';
 import AdminRegister from './pages/admin/AdminRegister';
+import AdminLogin from './pages/admin/AdminLogin';
 
 import NotFound from './pages/NotFound';
 
@@ -27,6 +28,7 @@ const App = () => {
         <Route path="/orders" element={<UserOrders />} />
         
         {/* Admin Routes */}
+        <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/register" element={<AdminRegister />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/orders" element={<AdminOrders />} />

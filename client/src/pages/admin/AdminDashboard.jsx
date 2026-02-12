@@ -171,13 +171,14 @@ const AdminDashboard = () => {
             <motion.div 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="overflow-x-auto bg-white rounded-lg shadow"
+                className="bg-white rounded-lg shadow overflow-hidden"
             >
-                <table className="min-w-full divide-y divide-gray-200">
+                <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                         <tr>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Model</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Factory</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">Factory</th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price Range</th>
                             <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                         </tr>
@@ -186,9 +187,14 @@ const AdminDashboard = () => {
                         {products.map((product) => (
                             <tr key={product._id} className="hover:bg-gray-50 transition-colors">
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{product.modelName}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{product.factoryName}</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 hidden sm:table-cell">{product.factoryName}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    ₹{product.priceRange?.min} - ₹{product.priceRange?.max}
+                                    <div className="flex flex-col sm:block">
+                                        <span>₹{product.priceRange?.min}</span>
+                                        <span className="sm:hidden text-xs text-gray-400"> to </span>
+                                        <span className="hidden sm:inline"> - </span>
+                                        <span>₹{product.priceRange?.max}</span>
+                                    </div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <button onClick={() => confirmDelete(product._id)} className="text-red-600 hover:text-red-900 transition-colors">
@@ -200,6 +206,7 @@ const AdminDashboard = () => {
                     </tbody>
                 </table>
                 {products.length === 0 && <div className="text-center p-4 text-gray-500">No products found.</div>}
+                </div>
             </motion.div>
         </MainLayout>
     );
