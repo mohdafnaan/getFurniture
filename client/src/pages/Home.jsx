@@ -15,21 +15,27 @@ const Home = () => {
   const [categoryFilter, setCategoryFilter] = useState('All');
   const navigate = useNavigate();
 
+  const [favorites, setFavorites] = useState([]);
+
   useEffect(() => {
     if (role === 'admin') {
       navigate('/admin/dashboard');
     } else if (role === 'user') {
-        const fetchProducts = async () => {
+        const fetchData = async () => {
             try {
-                const { data } = await api.get('/private/products');
-                setProducts(data);
+                const [productsRes, favoritesRes] = await Promise.all([
+                    api.get('/private/products'),
+                    api.get('/private/favourites')
+                ]);
+                setProducts(productsRes.data);
+                setFavorites(favoritesRes.data.map(f => typeof f === 'object' ? f.productId : f)); // Handle potential object/string difference
             } catch (error) {
-                console.error("Error fetching products:", error);
+                console.error("Error fetching data:", error);
             } finally {
                 setLoading(false);
             }
         };
-        fetchProducts();
+        fetchData();
     } else {
         setLoading(false);
     }
@@ -37,10 +43,17 @@ const Home = () => {
 
   const addToFavorites = async (productId) => {
     try {
-        await api.post(`/private/add-to-favourites/${productId}`);
-        toast.success("Added to favorites");
+        if (favorites.includes(productId)) {
+            await api.delete(`/private/remove-from-favourites/${productId}`);
+            setFavorites(prev => prev.filter(id => id !== productId));
+            toast.success("Removed from favorites");
+        } else {
+            await api.post(`/private/add-to-favourites/${productId}`);
+            setFavorites(prev => [...prev, productId]);
+            toast.success("Added to favorites");
+        }
     } catch (error) {
-        toast.error(error.response?.data?.message || "Failed to add");
+        toast.error(error.response?.data?.message || "Failed to update favorites");
     }
   };
 
@@ -169,13 +182,16 @@ const Home = () => {
                              <motion.button
                                 whileTap={{ scale: 0.9 }}
                                 onClick={() => addToFavorites(product._id)}
-                                className="absolute top-2 right-2 p-2 bg-white rounded-full shadow hover:bg-gray-100 text-red-500"
+                                className={`absolute top-2 right-2 p-2 bg-white rounded-full shadow hover:bg-gray-100 ${
+                                    favorites.includes(product._id) ? 'text-red-500 fill-current' : 'text-gray-400'
+                                }`}
                              >
-                                <Heart size={20} />
+                                <Heart size={20} className={favorites.includes(product._id) ? 'fill-red-500 text-red-500' : ''} />
                              </motion.button>
                         </div>
                         <div className="p-4">
                             <h3 className="text-lg font-semibold text-gray-900">{product.modelName}</h3>
+                            <p className="text-xs text-indigo-600 font-medium mb-1">{product.factoryName || "GetFurniture Factory"}</p>
                             <p className="text-sm text-gray-500 mb-2">{product.category}</p>
                             <p className="text-sm text-gray-700 line-clamp-2 mb-4">{product.description}</p>
                             

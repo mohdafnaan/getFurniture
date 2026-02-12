@@ -3,6 +3,7 @@ import express from "express";
 import userModel from "../../Models/User/User.js";
 import productModel from "../../Models/Products/Product.js";
 import orderModel from "../../Models/Orders/Orders.js";
+import sendMail from "../../utils/mailer.js";
 
 const router = express.Router();
 
@@ -108,11 +109,27 @@ router.post("/place-order/:productId", async (req, res) => {
       modelName: product.modelName,
       priceRange: product.priceRange,
       productImage,
-      manufacturerName: product.manufacturerName,
+      manufacturerName: product.manufacturerName, // Added manufacturerName
       factoryName: product.factoryName,
       manufacturerPhone: product.manufacturerPhone,
     });
-    res.status(201).json({ message: "Order placed successfully" });
+
+    // Send confirmation email to user
+    await sendMail(
+      user.email,
+      "Order Confirmation - GetFurniture",
+      `Dear ${user.name},<br><br>Thank you for placing an order for <b>${product.modelName}</b>.<br>Our team will respond to you within 4-5 hours to confirm the details and process your request.<br><br><b>Target Price Range:</b> ₹${product.priceRange.min} - ₹${product.priceRange.max}<br><br>Best Regards,<br>GetFurniture Team`,
+      true
+    );
+
+    // Send notification email to admin
+    await sendMail(
+      process.env.EMAIL, // Admin gets notified
+      "New Order Received - GetFurniture",
+      `<b>New Order Alert!</b><br><br>A new order has been placed.<br><br><b>User:</b> ${user.name} (${user.phone})<br><b>Product:</b> ${product.modelName}<br><b>Factory:</b> ${product.factoryName}<br><br>Please check the admin dashboard for more details.`,
+      true
+    );
+    res.status(201).json({ message: "Order placed! Our team will contact you within 4-5 hours." });
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
