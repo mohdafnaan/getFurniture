@@ -2,12 +2,13 @@ import { useState, useEffect } from 'react';
 import api from '../../utils/api';
 import MainLayout from '../../layouts/MainLayout';
 import toast from 'react-hot-toast';
-import { Trash2, Plus } from 'lucide-react';
+import { Trash2, Plus, AlertTriangle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const AdminDashboard = () => {
     const [products, setProducts] = useState([]);
     const [isAdding, setIsAdding] = useState(false);
+    const [deletingProductId, setDeletingProductId] = useState(null);
     const [formData, setFormData] = useState({
         modelName: '',
         manufacturerName: '',
@@ -33,14 +34,20 @@ const AdminDashboard = () => {
         }
     };
 
-    const handleDelete = async (id) => {
-        if (!window.confirm("Are you sure you want to delete this product?")) return;
+    const confirmDelete = (id) => {
+        setDeletingProductId(id);
+    };
+
+    const handleDeleteProduct = async () => {
+        if (!deletingProductId) return;
         try {
-            await api.delete(`/private/delete-product/${id}`);
+            await api.delete(`/private/delete-product/${deletingProductId}`);
             toast.success("Product deleted successfully");
             fetchProducts();
         } catch (error) {
             toast.error("Failed to delete product");
+        } finally {
+            setDeletingProductId(null);
         }
     };
 
@@ -99,6 +106,41 @@ const AdminDashboard = () => {
             </div>
 
             <AnimatePresence>
+                {deletingProductId && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+                        <motion.div 
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            className="bg-white rounded-lg p-6 max-w-sm w-full shadow-xl"
+                        >
+                            <div className="flex flex-col items-center text-center">
+                                <div className="bg-red-100 p-3 rounded-full mb-4">
+                                    <AlertTriangle className="text-red-600" size={32} />
+                                </div>
+                                <h3 className="text-lg font-bold text-gray-900 mb-2">Delete Product?</h3>
+                                <p className="text-gray-500 mb-6">Are you sure you want to delete this product? This action cannot be undone.</p>
+                                <div className="flex gap-3 w-full">
+                                    <button 
+                                        onClick={() => setDeletingProductId(null)}
+                                        className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium"
+                                    >
+                                        No, Cancel
+                                    </button>
+                                    <button 
+                                        onClick={handleDeleteProduct}
+                                        className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium"
+                                    >
+                                        Yes, Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+
+            <AnimatePresence>
             {isAdding && (
                 <motion.div 
                     initial={{ height: 0, opacity: 0 }}
@@ -149,7 +191,7 @@ const AdminDashboard = () => {
                                     ₹{product.priceRange?.min} - ₹{product.priceRange?.max}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <button onClick={() => handleDelete(product._id)} className="text-red-600 hover:text-red-900 transition-colors">
+                                    <button onClick={() => confirmDelete(product._id)} className="text-red-600 hover:text-red-900 transition-colors">
                                         <Trash2 size={20} />
                                     </button>
                                 </td>

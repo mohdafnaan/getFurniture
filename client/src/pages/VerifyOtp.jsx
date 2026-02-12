@@ -3,17 +3,24 @@ import api from '../utils/api';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
+import { useAuth } from '../context/AuthContext';
 
 const VerifyOtp = () => {
     const [otp, setOtp] = useState('');
+    const { login } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const { data } = await api.post('/public/email-otp', { otp: parseInt(otp) });
-            toast.success(data.message || 'Verification successful. Please login.');
-            navigate('/login');
+            toast.success(data.message || 'Verification successful.');
+            // Auto login after verification
+            if (data.token) {
+                login(data.token, 'user', null);
+            } else {
+                navigate('/login');
+            }
         } catch (error) {
             toast.error(error.response?.data?.message || 'Verification failed');
         }

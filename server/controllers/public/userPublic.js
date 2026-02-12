@@ -40,8 +40,9 @@ router.post("/email-otp",async(req,res)=>{
         if(user.emailOtp !== otp){
             return res.status(400).json({message:"Invalid OTP"})
         }
+        let token = jwt.sign({email:user.email,userId:user._id},process.env.JWT_SECKEY,{expiresIn:"7d"});
         await userModel.updateOne({emailOtp:otp},{$set:{isVerified:true,emailOtp:null}})
-        res.status(200).json({message:"User verified successfully"})
+        res.status(200).json({message:"User verified successfully",token})
     } catch (error) {
         console.log(error)
         res.status(500).json({error})
@@ -73,6 +74,5 @@ router.post("/user-login",async(req,res)=>{
     }
 })
 
-router.post("/manufacturer-register",async (req,res)=>{})
 
 export default router;
