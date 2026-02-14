@@ -113,7 +113,6 @@ router.post("/place-order/:productId", async (req, res) => {
       factoryName: product.factoryName,
       manufacturerPhone: product.manufacturerPhone,
     });
-
     // Send response immediately
     res.status(201).json({ message: "Order placed! Our team will contact you within 4-5 hours." });
 
@@ -124,7 +123,6 @@ router.post("/place-order/:productId", async (req, res) => {
       `Dear ${user.name},<br><br>Thank you for placing an order for <b>${product.modelName}</b>.<br>Our team will respond to you within 4-5 hours to confirm the details and process your request.<br><br><b>Target Price Range:</b> ₹${product.priceRange.min} - ₹${product.priceRange.max}<br><br>Best Regards,<br>GetFurniture Team`,
       true
     ).catch(err => console.error("Error sending user email:", err));
-
     sendMail(
       process.env.EMAIL, // Admin gets notified
       "New Order Received - GetFurniture",
