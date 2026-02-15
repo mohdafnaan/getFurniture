@@ -2,6 +2,11 @@ import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
 import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 // ================================     IMPORTS   ================================================//
 // import database connection
 import "./utils/dbConnect.js";
@@ -16,30 +21,40 @@ import adminPrivateRoutes from "./controllers/private/admin-private.js";
 // import user private routes
 import userPrivateRoutes from "./controllers/private/user-private.js";
 // ================================================================================//
+
+const app = express();
+app.use(express.json());
+
+// ===================================== CORS ==========================================//
 let corsObject = {
-  origin: ["http://localhost:5173"],
+  origin: ["http://localhost:5173", "https://getfurnitures.in"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
 };
-const app = express();
-app.use(express.json())
+// ================================================================================//
 app.use(cors(corsObject));
-app.use("/uploads", express.static("uploads"));
+// app.use("/uploads", express.static("uploads"));
 const PORT = process.env.PORT || 3000;
 
-app.get("/",(req,res)=>{
-    try {
-        res.status(200).json({message:"Welcome to the server"})
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({error})
-    }
-})
-app.use("/public",userPublicRoutes);
-app.use("/public",adminPublicRoutes);
-app.use("/private",authMiddleware,adminPrivateRoutes);
-app.use("/private",authMiddleware,userPrivateRoutes);
-app.listen(PORT,()=>{
-    console.log(`Server running on port ${PORT}`)
-})
+app.get("/", (req, res) => {
+  try {
+    res.status(200).json({ message: "Welcome to the server" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error });
+  }
+});
+app.use("/public", userPublicRoutes);
+app.use("/public", adminPublicRoutes);
+app.use("/private", authMiddleware, adminPrivateRoutes);
+app.use("/private", authMiddleware, userPrivateRoutes);
+
+const buildPath = path.join(__dirname, "dist");
+app.use(express.static(buildPath));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(buildPath, "index.html"));
+});
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
