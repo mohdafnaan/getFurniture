@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  // If we are in production and running on the same domain, relative path is best
-  baseURL: import.meta.env.PROD ? '' : (import.meta.env.VITE_URL || 'http://localhost:3000'),
+  // Use relative path in production/cloud, fallback to local URL only in dev
+  baseURL: import.meta.env.DEV ? (import.meta.env.VITE_URL || 'http://localhost:3000') : '',
 });
 
 // Request interceptor to add token
