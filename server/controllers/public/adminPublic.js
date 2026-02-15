@@ -19,8 +19,8 @@ router.post("/admin-register",async (req,res)=>{
         await adminModel.insertOne({name,email,password : bPass});
         res.status(201).json({message:"Admin created successfully"})
     } catch (error) {
-        console.log(error)
-        res.status(500).json({error})
+        console.error("Admin Registration Error:", error);
+        res.status(500).json({ message: "Internal server error during admin registration", error: error.message });
     }
 })
 
@@ -41,8 +41,8 @@ router.post("/admin-login",async(req,res)=>{
         let token = jwt.sign({adminId:admin._id},process.env.JWT_SECKEY,{expiresIn:"7d"});
         res.status(200).json({message:"Admin logged in successfully",token})
     } catch (error) {
-        console.log(error)
-        res.status(500).json({error})
+        console.error("Admin Login Error:", error);
+        res.status(500).json({ message: "Internal server error during admin login", error: error.message });
     }
 })
 export default router;  

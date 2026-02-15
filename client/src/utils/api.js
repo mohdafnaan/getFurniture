@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_URL || '', // Use relative path if no URL provided
+  // If we are in production and running on the same domain, relative path is best
+  baseURL: import.meta.env.PROD ? '' : (import.meta.env.VITE_URL || 'http://localhost:3000'),
 });
 
 // Request interceptor to add token

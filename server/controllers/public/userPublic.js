@@ -18,12 +18,23 @@ router.post("/user-register",async (req,res)=>{
         }
         let bPass = await bcrypt.hash(password,10);
         let otp = Math.floor(100000 + Math.random() * 900000);
-        await sendMail(email,"Email Verification OTP",`Your OTP for email verification is ${otp}`);
+        
+        // Create user first
         await userModel.create({name,email,phone,password:bPass,address,emailOtp:otp});
-        res.status(201).json({message:`User created successfully Verification OTP sent to ${email}`})
+        
+        // Try to send mail but don't block if it fails (or handle it gracefully)
+        try {
+            await sendMail(email,"Email Verification OTP",`Your OTP for email verification is ${otp}`);
+        } catch (mailError) {
+            console.error("Failed to send verification email:", mailError);
+            // We still created the user, they just didn't get the email. 
+            // In a real app we might want to handle this better.
+        }
+        
+        res.status(201).json({message:`User created successfully. Verification OTP sent to ${email}`})
     } catch (error) {
-        console.log(error)
-        res.status(500).json({error})
+        console.error("Registration Error:", error);
+        res.status(500).json({ message: "Internal server error during registration", error: error.message });
     }
 })
 
@@ -44,8 +55,8 @@ router.post("/email-otp",async(req,res)=>{
         await userModel.updateOne({emailOtp:otp},{$set:{isVerified:true,emailOtp:null}})
         res.status(200).json({message:"User verified successfully",token})
     } catch (error) {
-        console.log(error)
-        res.status(500).json({error})
+        console.error("Verification Error:", error);
+        res.status(500).json({ message: "Verification failed", error: error.message });
     }
 })
 
@@ -69,8 +80,8 @@ router.post("/user-login",async(req,res)=>{
         let token = jwt.sign({email:user.email,userId:user._id},process.env.JWT_SECKEY,{expiresIn:"7d"});
         res.status(200).json({message:"User logged in successfully",token})
     } catch (error) {
-        console.log(error)
-        res.status(500).json({error})
+        console.error("Login Error:", error);
+        res.status(500).json({ message: "Internal server error during login", error: error.message });
     }
 })
 
