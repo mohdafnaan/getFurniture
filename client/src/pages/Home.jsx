@@ -182,7 +182,7 @@ const Home = () => {
                         <div className="h-48 bg-gray-200 relative">
                              {product.images && product.images.length > 0 ? (
                                 <img 
-                                    src={`http://localhost:3000/${product.images[0].path}`} 
+                                    src={import.meta.env.VITE_URL ? `${import.meta.env.VITE_URL}/${product.images[0].path}` : `/${product.images[0].path}`} 
                                     alt={product.modelName} 
                                     className="w-full h-full object-cover"
                                 />

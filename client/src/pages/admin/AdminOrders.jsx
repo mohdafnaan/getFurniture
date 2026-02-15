@@ -64,7 +64,7 @@ const AdminOrders = () => {
                                     {order.productImage && (
                                         <div className="flex-shrink-0">
                                             <img 
-                                                src={`http://localhost:3000/${order.productImage.path}`} 
+                                                src={import.meta.env.VITE_URL ? `${import.meta.env.VITE_URL}/${order.productImage.path}` : `/${order.productImage.path}`} 
                                                 alt="Product" 
                                                 className="h-24 w-24 object-cover rounded-md border"
                                             />
