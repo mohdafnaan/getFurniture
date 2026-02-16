@@ -7,6 +7,20 @@ import sendMail from "../../utils/mailer.js";
 
 const router = express.Router();
 
+// get current user profile
+router.get("/me", async (req, res) => {
+  try {
+    const user = await userModel.findOne({ _id: req.user.userId }).select("name email phone address createdAt");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error });
+  }
+});
+
 // add to cart
 router.post("/add-to-favourites/:productId", async (req, res) => {
   try {

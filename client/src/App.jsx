@@ -7,6 +7,7 @@ import Register from './pages/Register';
 import VerifyOtp from './pages/VerifyOtp';
 import Favorites from './pages/user/Favorites';
 import UserOrders from './pages/user/UserOrders';
+import UserProfile from './pages/user/UserProfile';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminOrders from './pages/admin/AdminOrders';
 import AdminRegister from './pages/admin/AdminRegister';
@@ -26,6 +27,7 @@ const App = () => {
         {/* User Routes - Ideally should be protected route components */}
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/orders" element={<UserOrders />} />
+        <Route path="/profile" element={<UserProfile />} />
         
         {/* Admin Routes */}
         <Route path="/admin/login" element={<AdminLogin />} />

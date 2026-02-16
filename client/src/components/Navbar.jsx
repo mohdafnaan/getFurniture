@@ -1,13 +1,18 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { ShoppingCart, User, LogOut, Menu, X, Package, LayoutDashboard } from 'lucide-react';
+import { User, LogOut, Menu, X, Package, LayoutDashboard } from 'lucide-react';
 import { useState } from 'react';
 
 const Navbar = () => {
     const { user, role, logout } = useAuth();
     const [isOpen, setIsOpen] = useState(false);
+    const location = useLocation();
 
     const toggleMenu = () => setIsOpen(!isOpen);
+
+    // Check if we're on a dashboard/authenticated page (not login, register, verify-otp, or landing)
+    const isAuthPage = ['/login', '/register', '/verify-otp', '/admin/login', '/admin/register'].includes(location.pathname);
+    const isLandingPage = location.pathname === '/' && !role;
 
     return (
         <nav className="bg-white shadow-md sticky top-0 z-50">
@@ -29,28 +34,29 @@ const Navbar = () => {
                                 <Link to="/admin/orders" className="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium flex items-center gap-2">
                                     <Package size={18} /> Order
                                 </Link>
+                                <button onClick={logout} className="ml-4 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center gap-2 transition-colors">
+                                    <LogOut size={16} /> Logout
+                                </button>
                             </>
                         ) : role === 'user' ? (
                             <>
                                 <Link to="/" className="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Home</Link>
                                 <Link to="/favorites" className="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Favorites</Link>
                                 <Link to="/orders" className="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">My Orders</Link>
+                                <Link to="/profile" className="ml-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center gap-2 transition-colors">
+                                    <User size={16} /> Profile
+                                </Link>
                             </>
                         ) : (
                             <>
                                 <Link to="/" className="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Home</Link>
+                                {!isAuthPage && (
+                                    <div className="flex items-center space-x-2">
+                                        <Link to="/login" className="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Login</Link>
+                                        <Link to="/register" className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">Register</Link>
+                                    </div>
+                                )}
                             </>
-                        )}
-
-                        {role ? (
-                            <button onClick={logout} className="ml-4 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center gap-2 transition-colors">
-                                <LogOut size={16} /> Logout
-                            </button>
-                        ) : (
-                            <div className="flex items-center space-x-2">
-                                <Link to="/login" className="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Login</Link>
-                                <Link to="/register" className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">Register</Link>
-                            </div>
                         )}
                     </div>
 
@@ -74,24 +80,28 @@ const Navbar = () => {
                             <>
                                 <Link to="/admin/dashboard" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">Add Product</Link>
                                 <Link to="/admin/orders" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">Order</Link>
+                                <button onClick={logout} className="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-red-600 hover:bg-red-50">
+                                    Logout
+                                </button>
                             </>
                         ) : role === 'user' ? (
                             <>
                                 <Link to="/" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">Home</Link>
                                 <Link to="/favorites" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">Favorites</Link>
                                 <Link to="/orders" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">My Orders</Link>
+                                <Link to="/profile" className="block px-3 py-2 rounded-md text-base font-medium text-indigo-600 hover:bg-indigo-50 flex items-center gap-2">
+                                    <User size={18} /> Profile
+                                </Link>
                             </>
                         ) : (
-                             <Link to="/" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">Home</Link>
-                        )}
-                         {role ? (
-                            <button onClick={logout} className="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-red-600 hover:bg-red-50">
-                                Logout
-                            </button>
-                        ) : (
                             <>
-                                <Link to="/login" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">Login</Link>
-                                <Link to="/register" className="block px-3 py-2 rounded-md text-base font-medium text-indigo-600 hover:bg-indigo-50">Register</Link>
+                                <Link to="/" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">Home</Link>
+                                {!isAuthPage && (
+                                    <>
+                                        <Link to="/login" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">Login</Link>
+                                        <Link to="/register" className="block px-3 py-2 rounded-md text-base font-medium text-indigo-600 hover:bg-indigo-50">Register</Link>
+                                    </>
+                                )}
                             </>
                         )}
                     </div>

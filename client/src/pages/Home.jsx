@@ -157,7 +157,7 @@ const Home = () => {
                         onChange={(e) => setCategoryFilter(e.target.value)}
                     >
                         {uniqueCategories.map(category => (
-                            <option key={category} value={category}>{category}</option>
+                            <option key={category} value={category}>{category.charAt(0).toUpperCase() + category.slice(1)}</option>
                         ))}
                     </select>
                 </div>

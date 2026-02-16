@@ -24,7 +24,20 @@ router.post("/user-register",async (req,res)=>{
         
         // Try to send mail but don't block if it fails (or handle it gracefully)
         try {
-            await sendMail(email,"Email Verification OTP",`Your OTP for email verification is ${otp}`);
+            await sendMail(
+              email,
+              "Email Verification OTP",
+              `<p>Hello <b>${name}</b>,</p>
+               <p>Thank you for creating an account with <b>GetFurniture</b>. Please use the OTP below to verify your email address:</p>
+               <div style="text-align: center; margin: 30px 0;">
+                 <div style="display: inline-block; background: linear-gradient(135deg, #4F46E5, #7C3AED); padding: 20px 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);">
+                   <span style="font-size: 32px; font-weight: bold; color: #ffffff; letter-spacing: 8px; font-family: 'Courier New', monospace;">${otp}</span>
+                 </div>
+               </div>
+               <p style="color: #6b7280; font-size: 14px;">This OTP is valid for a limited time. If you didn't request this, please ignore this email.</p>
+               <p>Best Regards,<br><b>GetFurniture Team</b></p>`,
+              true
+            );
         } catch (mailError) {
             console.error("Failed to send verification email:", mailError);
             // We still created the user, they just didn't get the email. 
@@ -78,7 +91,15 @@ router.post("/user-login",async(req,res)=>{
             return res.status(400).json({message:"Invalid password"})
         }
         let token = jwt.sign({email:user.email,userId:user._id},process.env.JWT_SECKEY,{expiresIn:"7d"});
-        res.status(200).json({message:"User logged in successfully",token})
+        res.status(200).json({
+            message:"User logged in successfully",
+            token,
+            user: {
+                name: user.name,
+                email: user.email,
+                createdAt: user.createdAt
+            }
+        })
     } catch (error) {
         console.error("Login Error:", error);
         res.status(500).json({ message: "Internal server error during login", error: error.message });
