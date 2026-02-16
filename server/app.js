@@ -31,14 +31,18 @@ app.use(express.json());
 
 // ===================================== CORS ==========================================//
 let corsObject = {
-  origin: ["http://localhost:5173", "https://getfurnitures.in", "https://www.getfurnitures.in"],
+  origin: [
+    "http://localhost:5173",
+    "https://getfurnitures.in",
+    "https://www.getfurnitures.in",
+  ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
 };
 // ================================================================================//
 app.use(cors(corsObject));
-app.use("/uploads", express.static("uploads"));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 const PORT = process.env.PORT || 3000;
 
 app.get("/health", (req, res) => {

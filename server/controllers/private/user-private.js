@@ -10,7 +10,9 @@ const router = express.Router();
 // get current user profile
 router.get("/me", async (req, res) => {
   try {
-    const user = await userModel.findOne({ _id: req.user.userId }).select("name email phone address createdAt");
+    const user = await userModel
+      .findOne({ _id: req.user.userId })
+      .select("name email phone address createdAt");
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -100,14 +102,14 @@ router.post("/place-order/:productId", async (req, res) => {
     }
 
     // Check for existing pending order
-    const existingOrder = await orderModel.findOne({ 
-        userId: user._id, 
-        productId: productId, 
-        status: { $in: ['pending', 'contacted', 'in-process'] } // Allow re-ordering only if previous order is completed/cancelled
+    const existingOrder = await orderModel.findOne({
+      userId: user._id,
+      productId: productId,
+      status: { $in: ["pending", "contacted", "in-process"] }, // Allow re-ordering only if previous order is completed/cancelled
     });
-    
+
     if (existingOrder) {
-        return res.status(400).json({ message: "Order already placed" });
+      return res.status(400).json({ message: "Order already placed" });
     }
 
     // got product image
@@ -128,21 +130,23 @@ router.post("/place-order/:productId", async (req, res) => {
       manufacturerPhone: product.manufacturerPhone,
     });
     // Send response immediately
-    res.status(201).json({ message: "Order placed! Our team will contact you within 4-5 hours." });
+    res.status(201).json({
+      message: "Order placed! Our team will contact you within 4-5 hours.",
+    });
 
     // Send emails in background (fire and forget)
     sendMail(
       user.email,
       "Order Confirmation - GetFurniture",
       `Dear ${user.name},<br><br>Thank you for placing an order for <b>${product.modelName}</b>.<br>Our team will respond to you within 4-5 hours to confirm the details and process your request.<br><br><b>Target Price Range:</b> ₹${product.priceRange.min} - ₹${product.priceRange.max}<br><br>Best Regards,<br>GetFurniture Team`,
-      true
-    ).catch(err => console.error("Error sending user email:", err));
+      true,
+    ).catch((err) => console.error("Error sending user email:", err));
     sendMail(
       process.env.EMAIL, // Admin gets notified
       "New Order Received - GetFurniture",
       `<b>New Order Alert!</b><br><br>A new order has been placed.<br><br><b>User:</b> ${user.name} (${user.phone})<br><b>Product:</b> ${product.modelName}<br><b>Factory:</b> ${product.factoryName}<br><br>Please check the admin dashboard for more details.`,
-      true
-    ).catch(err => console.error("Error sending admin email:", err));
+      true,
+    ).catch((err) => console.error("Error sending admin email:", err));
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
@@ -154,21 +158,11 @@ router.get("/products", async (req, res) => {
   try {
     let products = await productModel
       .find()
-      .select("modelName images priceRange factoryName description category");
-    
-    // Normalize image paths
-    const cleanedProducts = products.map(p => {
-        const product = p.toObject();
-        if(product.images && product.images.length > 0) {
-            product.images = product.images.map(img => ({
-                ...img,
-                path: `uploads/products/${img.filename}` 
-            }));
-        }
-        return product;
-    });
+      .select(
+        "modelName images priceRange factoryName manufacturerName description category",
+      );
 
-    res.status(200).json(cleanedProducts);
+    res.status(200).json(products);
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
@@ -181,21 +175,11 @@ router.get("/products/:category", async (req, res) => {
     let category = req.params.category;
     let products = await productModel
       .find({ $or: [{ category }, { modelName: category }] })
-      .select("modelName images priceRange factoryName description category");
-      
-    // Normalize image paths
-    const cleanedProducts = products.map(p => {
-        const product = p.toObject();
-        if(product.images && product.images.length > 0) {
-            product.images = product.images.map(img => ({
-                ...img,
-                path: `uploads/products/${img.filename}` 
-            }));
-        }
-        return product;
-    });
+      .select(
+        "modelName images priceRange factoryName manufacturerName description category",
+      );
 
-    res.status(200).json(cleanedProducts);
+    res.status(200).json(products);
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
@@ -216,18 +200,16 @@ router.get("/order-history", async (req, res) => {
   }
 });
 
-
 // cancel an order
 router.delete("/cancel-order/:orderid", async (req, res) => {
-    try {
-        let orderId = req.params.orderid;
-        await orderModel.deleteOne({_id : orderId,userId : req.user.userId});
-        res.status(200).json({message : "Order cancelled successfullly"})
-    } catch (error) {
-        console.log(error);
-        res.status(500).json(error)
-    }
-})
-
+  try {
+    let orderId = req.params.orderid;
+    await orderModel.deleteOne({ _id: orderId, userId: req.user.userId });
+    res.status(200).json({ message: "Order cancelled successfullly" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+});
 
 export default router;

@@ -1,19 +1,20 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import VerifyOtp from './pages/VerifyOtp';
-import Favorites from './pages/user/Favorites';
-import UserOrders from './pages/user/UserOrders';
-import UserProfile from './pages/user/UserProfile';
-import AdminDashboard from './pages/admin/AdminDashboard';
-import AdminOrders from './pages/admin/AdminOrders';
-import AdminRegister from './pages/admin/AdminRegister';
-import AdminLogin from './pages/admin/AdminLogin';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import VerifyOtp from "./pages/VerifyOtp";
+import Favorites from "./pages/user/Favorites";
+import UserOrders from "./pages/user/UserOrders";
+import UserProfile from "./pages/user/UserProfile";
+import OrderConfirmation from "./pages/OrderConfirmation";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminOrders from "./pages/admin/AdminOrders";
+import AdminRegister from "./pages/admin/AdminRegister";
+import AdminLogin from "./pages/admin/AdminLogin";
 
-import NotFound from './pages/NotFound';
+import NotFound from "./pages/NotFound";
 
 const App = () => {
   return (
@@ -23,18 +24,22 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/verify-otp" element={<VerifyOtp />} />
-        
+
         {/* User Routes - Ideally should be protected route components */}
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/orders" element={<UserOrders />} />
         <Route path="/profile" element={<UserProfile />} />
-        
+        <Route
+          path="/order-confirmation/:productId"
+          element={<OrderConfirmation />}
+        />
+
         {/* Admin Routes */}
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/register" element={<AdminRegister />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/orders" element={<AdminOrders />} />
-        
+
         {/* 404 */}
         <Route path="*" element={<NotFound />} />
       </Routes>
