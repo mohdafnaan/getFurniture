@@ -31,7 +31,7 @@ const Login = () => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.3 }}
-        className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md mt-10"
+        className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg border border-amber-100 mt-10"
       >
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
             User Login
@@ -44,7 +44,7 @@ const Login = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="mt-1 block w-full px-3 py-2 border border-amber-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all"
               required
             />
           </div>
@@ -54,13 +54,13 @@ const Login = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="mt-1 block w-full px-3 py-2 border border-amber-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all"
               required
             />
           </div>
           <button
             type="submit"
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-amber-700 to-orange-600 hover:from-amber-800 hover:to-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-all shadow-md hover:shadow-lg"
           >
             Sign In
           </button>
@@ -68,7 +68,7 @@ const Login = () => {
 
         <div className="mt-4 text-center">
             <span className="text-sm text-gray-600">Don't have an account? </span>
-            <Link to="/register" className="text-sm text-indigo-600 hover:text-indigo-500">Register</Link>
+            <Link to="/register" className="text-sm text-amber-700 hover:text-amber-600 font-medium">Register</Link>
         </div>
       </motion.div>
     </MainLayout>

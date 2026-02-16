@@ -110,7 +110,7 @@ const AdminDashboard = () => {
         <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
         <button
           onClick={() => setIsAdding(!isAdding)}
-          className="flex items-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors"
+          className="flex items-center gap-2 bg-amber-700 text-white px-4 py-2 rounded-md hover:bg-amber-800 transition-colors"
         >
           <Plus size={20} /> {isAdding ? "Cancel" : "Add Product"}
         </button>
@@ -172,7 +172,7 @@ const AdminDashboard = () => {
               <input
                 type="text"
                 placeholder="Model Name"
-                className="border p-2 rounded focus:ring-2 focus:ring-indigo-500 outline-none"
+                className="border p-2 rounded focus:ring-2 focus:ring-amber-500 outline-none"
                 value={formData.modelName}
                 onChange={(e) =>
                   setFormData({ ...formData, modelName: e.target.value })
@@ -182,7 +182,7 @@ const AdminDashboard = () => {
               <input
                 type="text"
                 placeholder="Category (e.g. Sofa, Bed)"
-                className="border p-2 rounded focus:ring-2 focus:ring-indigo-500 outline-none"
+                className="border p-2 rounded focus:ring-2 focus:ring-amber-500 outline-none"
                 value={formData.category}
                 onChange={(e) =>
                   setFormData({ ...formData, category: e.target.value })
@@ -192,7 +192,7 @@ const AdminDashboard = () => {
               <input
                 type="text"
                 placeholder="Manufacturer Name"
-                className="border p-2 rounded focus:ring-2 focus:ring-indigo-500 outline-none"
+                className="border p-2 rounded focus:ring-2 focus:ring-amber-500 outline-none"
                 value={formData.manufacturerName}
                 onChange={(e) =>
                   setFormData({ ...formData, manufacturerName: e.target.value })
@@ -202,7 +202,7 @@ const AdminDashboard = () => {
               <input
                 type="text"
                 placeholder="Manufacturer Phone"
-                className="border p-2 rounded focus:ring-2 focus:ring-indigo-500 outline-none"
+                className="border p-2 rounded focus:ring-2 focus:ring-amber-500 outline-none"
                 value={formData.manufacturerPhone}
                 onChange={(e) =>
                   setFormData({
@@ -215,7 +215,7 @@ const AdminDashboard = () => {
               <input
                 type="text"
                 placeholder="Factory Name"
-                className="border p-2 rounded focus:ring-2 focus:ring-indigo-500 outline-none"
+                className="border p-2 rounded focus:ring-2 focus:ring-amber-500 outline-none"
                 value={formData.factoryName}
                 onChange={(e) =>
                   setFormData({ ...formData, factoryName: e.target.value })
@@ -224,7 +224,7 @@ const AdminDashboard = () => {
               />
               <textarea
                 placeholder="Description"
-                className="border p-2 rounded md:col-span-2 focus:ring-2 focus:ring-indigo-500 outline-none"
+                className="border p-2 rounded md:col-span-2 focus:ring-2 focus:ring-amber-500 outline-none"
                 value={formData.description}
                 onChange={(e) =>
                   setFormData({ ...formData, description: e.target.value })
@@ -234,7 +234,7 @@ const AdminDashboard = () => {
                 <input
                   type="number"
                   placeholder="Min Price"
-                  className="border p-2 rounded w-full focus:ring-2 focus:ring-indigo-500 outline-none"
+                  className="border p-2 rounded w-full focus:ring-2 focus:ring-amber-500 outline-none"
                   value={formData.minPrice}
                   onChange={(e) =>
                     setFormData({ ...formData, minPrice: e.target.value })
@@ -244,7 +244,7 @@ const AdminDashboard = () => {
                 <input
                   type="number"
                   placeholder="Max Price"
-                  className="border p-2 rounded w-full focus:ring-2 focus:ring-indigo-500 outline-none"
+                  className="border p-2 rounded w-full focus:ring-2 focus:ring-amber-500 outline-none"
                   value={formData.maxPrice}
                   onChange={(e) =>
                     setFormData({ ...formData, maxPrice: e.target.value })
@@ -256,7 +256,7 @@ const AdminDashboard = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Product Images (Max 5 images)
                   {formData.images && formData.images.length > 0 && (
-                    <span className="ml-2 text-indigo-600">
+                    <span className="ml-2 text-amber-700">
                       {formData.images.length} image
                       {formData.images.length > 1 ? "s" : ""} selected
                     </span>
@@ -267,7 +267,7 @@ const AdminDashboard = () => {
                   multiple
                   accept="image/jpeg,image/png,image/webp,image/jpg"
                   onChange={handleFileChange}
-                  className="border p-2 rounded w-full focus:ring-2 focus:ring-indigo-500 outline-none"
+                  className="border p-2 rounded w-full focus:ring-2 focus:ring-amber-500 outline-none"
                   required
                 />
               </div>

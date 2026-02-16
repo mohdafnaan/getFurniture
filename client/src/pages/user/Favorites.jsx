@@ -113,7 +113,7 @@ const Favorites = () => {
                     </button>
                     <button
                       onClick={() => handleOrderClick(product._id)}
-                      className="bg-indigo-600 text-white px-3 py-1.5 rounded-md text-sm font-medium hover:bg-indigo-700 flex items-center gap-1"
+                      className="bg-amber-700 text-white px-3 py-1.5 rounded-md text-sm font-medium hover:bg-amber-800 flex items-center gap-1"
                     >
                       <ShoppingBag size={14} /> Order
                     </button>

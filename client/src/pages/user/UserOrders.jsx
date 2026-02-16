@@ -77,7 +77,7 @@ const UserOrders = () => {
             >
                 <div className="flex items-center gap-3 mb-1">
                     <div className="bg-indigo-100 p-2 rounded-lg">
-                        <Package className="text-indigo-600" size={24} />
+                        <Package className="text-amber-700" size={24} />
                     </div>
                     <div>
                         <h1 className="text-2xl font-bold text-gray-900">Order History</h1>
@@ -94,7 +94,7 @@ const UserOrders = () => {
                     </div>
                     <input
                         type="text"
-                        className="block w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all"
+                        className="block w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-indigo-400 transition-all"
                         placeholder="Search orders..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
@@ -105,7 +105,7 @@ const UserOrders = () => {
                         <Filter className="h-4 w-4 text-gray-400" />
                     </div>
                     <select
-                        className="block w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all appearance-none"
+                        className="block w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-indigo-400 transition-all appearance-none"
                         value={statusFilter}
                         onChange={(e) => setStatusFilter(e.target.value)}
                     >
@@ -154,7 +154,7 @@ const UserOrders = () => {
 
             {loading ? (
                 <div className="flex justify-center items-center h-40">
-                    <Loader className="animate-spin text-indigo-600" size={32} />
+                    <Loader className="animate-spin text-amber-700" size={32} />
                 </div>
             ) : filteredOrders.length === 0 ? (
                 <div className="text-center py-16 bg-white rounded-xl border border-gray-100 shadow-sm">

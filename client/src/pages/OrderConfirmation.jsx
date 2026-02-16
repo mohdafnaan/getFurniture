@@ -74,7 +74,7 @@ const OrderConfirmation = () => {
     return (
       <MainLayout>
         <div className="flex justify-center items-center h-screen">
-          <Loader className="animate-spin text-indigo-600" size={48} />
+          <Loader className="animate-spin text-amber-700" size={48} />
         </div>
       </MainLayout>
     );
@@ -100,7 +100,7 @@ const OrderConfirmation = () => {
         {/* Back Button */}
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-indigo-600 hover:text-indigo-700 mb-6 font-medium transition-colors"
+          className="flex items-center gap-2 text-amber-700 hover:text-amber-800 mb-6 font-medium transition-colors"
         >
           <ArrowLeft size={20} />
           Back
@@ -175,7 +175,7 @@ const OrderConfirmation = () => {
                       onClick={() => setCurrentImageIndex(index)}
                       className={`aspect-square rounded-lg overflow-hidden border-2 transition-all ${
                         currentImageIndex === index
-                          ? "border-indigo-600 ring-2 ring-indigo-200"
+                          ? "border-amber-700 ring-2 ring-indigo-200"
                           : "border-gray-200 hover:border-indigo-300"
                       }`}
                     >
@@ -225,11 +225,11 @@ const OrderConfirmation = () => {
               {/* Price Range */}
               <div className="border-t pt-4">
                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-bold text-indigo-600">
+                  <span className="text-3xl font-bold text-amber-700">
                     ₹{product.priceRange?.min || 0}
                   </span>
                   <span className="text-xl text-gray-500">-</span>
-                  <span className="text-3xl font-bold text-indigo-600">
+                  <span className="text-3xl font-bold text-amber-700">
                     ₹{product.priceRange?.max || 0}
                   </span>
                 </div>
@@ -268,7 +268,7 @@ const OrderConfirmation = () => {
               whileTap={{ scale: 0.98 }}
               onClick={handlePlaceOrder}
               disabled={isPlacingOrder}
-              className="w-full bg-indigo-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+              className="w-full bg-amber-700 text-white py-4 rounded-xl font-bold text-lg hover:bg-amber-800 transition-colors flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
             >
               {isPlacingOrder ? (
                 <>

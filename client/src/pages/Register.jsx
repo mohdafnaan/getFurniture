@@ -31,7 +31,7 @@ const Register = () => {
 
   return (
     <MainLayout>
-      <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md mt-10">
+      <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg border border-amber-100 mt-10">
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Create Account</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           {[
@@ -45,7 +45,7 @@ const Register = () => {
               <input
                 type={field.type}
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="mt-1 block w-full px-3 py-2 border border-amber-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all"
                 value={formData[field.name]}
                 onChange={(e) =>
                   setFormData({ ...formData, [field.name]: e.target.value })
@@ -57,7 +57,7 @@ const Register = () => {
           <div>
             <label className="block text-sm font-medium text-gray-700">Phone</label>
             <div className="mt-1 flex">
-              <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-600 text-sm font-medium">
+              <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-amber-200 bg-gray-50 text-gray-600 text-sm font-medium">
                 🇮🇳 +91
               </span>
               <input
@@ -66,7 +66,7 @@ const Register = () => {
                 pattern="[0-9]{10}"
                 maxLength={10}
                 placeholder="10-digit mobile number"
-                className="block w-full px-3 py-2 border border-gray-300 rounded-r-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="block w-full px-3 py-2 border border-amber-200 rounded-r-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all"
                 value={formData.phone}
                 onChange={(e) => {
                   const val = e.target.value.replace(/\D/g, '').slice(0, 10);
@@ -77,14 +77,14 @@ const Register = () => {
           </div>
           <button
             type="submit"
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-amber-700 to-orange-600 hover:from-amber-800 hover:to-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-all shadow-md hover:shadow-lg"
           >
             Register
           </button>
         </form>
         <div className="mt-4 text-center">
             <span className="text-sm text-gray-600">Already have an account? </span>
-            <Link to="/login" className="text-sm text-indigo-600 hover:text-indigo-500">Login</Link>
+            <Link to="/login" className="text-sm text-amber-700 hover:text-amber-600 font-medium">Login</Link>
         </div>
       </div>
     </MainLayout>

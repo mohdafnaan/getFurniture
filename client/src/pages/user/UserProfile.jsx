@@ -28,7 +28,7 @@ const UserProfile = () => {
         return (
             <MainLayout>
                 <div className="flex justify-center items-center h-64">
-                    <Loader className="animate-spin text-indigo-600" size={40} />
+                    <Loader className="animate-spin text-amber-700" size={40} />
                 </div>
             </MainLayout>
         );
@@ -66,12 +66,12 @@ const UserProfile = () => {
                 className="max-w-lg mx-auto mt-6"
             >
                 {/* Profile Card */}
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+                <div className="bg-white rounded-2xl shadow-lg border border-amber-100 overflow-hidden">
                     {/* Header gradient */}
-                    <div className="h-24 bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-500 relative">
+                    <div className="h-24 bg-gradient-to-r from-amber-700 via-orange-500 to-amber-600 relative">
                         <div className="absolute -bottom-10 left-1/2 transform -translate-x-1/2">
                             <div className="w-20 h-20 rounded-full bg-white shadow-lg flex items-center justify-center border-4 border-white">
-                                <span className="text-2xl font-bold text-indigo-600">{initials}</span>
+                                <span className="text-2xl font-bold text-amber-700">{initials}</span>
                             </div>
                         </div>
                     </div>
@@ -84,9 +84,9 @@ const UserProfile = () => {
 
                     {/* Details */}
                     <div className="px-6 pb-6 space-y-1">
-                        <div className="flex items-center gap-3 py-3 px-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors">
-                            <div className="bg-indigo-100 p-2 rounded-lg">
-                                <User size={18} className="text-indigo-600" />
+                        <div className="flex items-center gap-3 py-3 px-4 rounded-xl bg-amber-50 hover:bg-amber-100 transition-colors">
+                            <div className="bg-amber-100 p-2 rounded-lg">
+                                <User size={18} className="text-amber-700" />
                             </div>
                             <div>
                                 <p className="text-xs text-gray-400 font-medium">Username</p>
@@ -94,9 +94,9 @@ const UserProfile = () => {
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-3 py-3 px-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors">
-                            <div className="bg-blue-100 p-2 rounded-lg">
-                                <Mail size={18} className="text-blue-600" />
+                        <div className="flex items-center gap-3 py-3 px-4 rounded-xl bg-amber-50 hover:bg-amber-100 transition-colors">
+                            <div className="bg-orange-100 p-2 rounded-lg">
+                                <Mail size={18} className="text-orange-600" />
                             </div>
                             <div>
                                 <p className="text-xs text-gray-400 font-medium">Email</p>
@@ -105,9 +105,9 @@ const UserProfile = () => {
                         </div>
 
                         {profile.phone && (
-                            <div className="flex items-center gap-3 py-3 px-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors">
-                                <div className="bg-emerald-100 p-2 rounded-lg">
-                                    <Phone size={18} className="text-emerald-600" />
+                            <div className="flex items-center gap-3 py-3 px-4 rounded-xl bg-amber-50 hover:bg-amber-100 transition-colors">
+                                <div className="bg-amber-100 p-2 rounded-lg">
+                                    <Phone size={18} className="text-amber-700" />
                                 </div>
                                 <div>
                                     <p className="text-xs text-gray-400 font-medium">Phone</p>
@@ -117,7 +117,7 @@ const UserProfile = () => {
                         )}
 
                         {profile.address && (
-                            <div className="flex items-center gap-3 py-3 px-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors">
+                            <div className="flex items-center gap-3 py-3 px-4 rounded-xl bg-amber-50 hover:bg-amber-100 transition-colors">
                                 <div className="bg-orange-100 p-2 rounded-lg">
                                     <MapPin size={18} className="text-orange-600" />
                                 </div>
@@ -128,9 +128,9 @@ const UserProfile = () => {
                             </div>
                         )}
 
-                        <div className="flex items-center gap-3 py-3 px-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors">
-                            <div className="bg-violet-100 p-2 rounded-lg">
-                                <Calendar size={18} className="text-violet-600" />
+                        <div className="flex items-center gap-3 py-3 px-4 rounded-xl bg-amber-50 hover:bg-amber-100 transition-colors">
+                            <div className="bg-amber-100 p-2 rounded-lg">
+                                <Calendar size={18} className="text-amber-700" />
                             </div>
                             <div>
                                 <p className="text-xs text-gray-400 font-medium">Member Since</p>
@@ -138,7 +138,7 @@ const UserProfile = () => {
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-3 py-3 px-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <div className="flex items-center gap-3 py-3 px-4 rounded-xl bg-amber-50 hover:bg-amber-100 transition-colors">
                             <div className="bg-green-100 p-2 rounded-lg">
                                 <Shield size={18} className="text-green-600" />
                             </div>

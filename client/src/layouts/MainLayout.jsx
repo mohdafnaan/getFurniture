@@ -3,7 +3,7 @@ import { Toaster } from 'react-hot-toast';
 
 const MainLayout = ({ children }) => {
     return (
-        <div className="flex flex-col min-h-screen bg-gray-50 text-gray-900 font-sans antialiased">
+        <div className="flex flex-col min-h-screen bg-amber-50/30 text-gray-900 font-sans antialiased">
             <Navbar />
             <main className="flex-grow container mx-auto px-4 py-8 max-w-7xl">
                 {children}

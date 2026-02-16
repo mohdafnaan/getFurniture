@@ -16,7 +16,7 @@ const NotFound = () => {
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center mt-10">
                     <h2 className="text-2xl font-bold text-gray-800 mb-4">Page Not Found</h2>
                     <p className="text-gray-600 mb-6">The page you are looking for does not exist.</p>
-                    <Link to="/" className="bg-indigo-600 text-white px-6 py-2 rounded-md hover:bg-indigo-700 transition-colors">
+                    <Link to="/" className="bg-amber-700 text-white px-6 py-2 rounded-md hover:bg-amber-800 transition-colors">
                         Go Home
                     </Link>
                 </div>
