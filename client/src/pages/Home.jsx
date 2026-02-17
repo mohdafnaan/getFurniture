@@ -278,19 +278,19 @@ const Home = () => {
                   name: "Living Room",
                   description: "Sofas, coffee tables, TV units & more",
                   gradient: "from-amber-100 to-orange-100",
-                  img : "../../public/living room.jpg"
+                  img : "/living room.jpg"
                 },
                 {
                   name: "Bedroom",
                   description: "Beds, wardrobes, nightstands & more",
                   gradient: "from-orange-100 to-red-100",
-                  img : "../../public/bed room.jpg"
+                  img : "/bed room.jpg"
                 },
                 {
                   name: "Dining",
                   description: "Dining tables, chairs, cabinets & more",
                   gradient: "from-amber-100 to-yellow-100",
-                  img : "../../public/dining area.jpg"
+                  img : "/dining area.jpg"
                 },
               ].map((category, index) => (
                 <motion.div
