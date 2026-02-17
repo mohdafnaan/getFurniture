@@ -132,7 +132,7 @@ const Home = () => {
               className="text-center mb-16"
             >
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-                Why Choose GetFurniture?
+                Why Choose GetFurnitures?
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                 Traditional furniture shopping is broken. We're here to fix it.
@@ -430,7 +430,7 @@ const Home = () => {
             <div className="grid md:grid-cols-4 gap-8 mb-8">
               <div>
                 <h3 className="text-white text-2xl font-bold mb-4">
-                  GetFurniture
+                  GetFurnitures
                 </h3>
                 <p className="text-gray-400 leading-relaxed">
                   Premium furniture directly from manufacturers. No middlemen,

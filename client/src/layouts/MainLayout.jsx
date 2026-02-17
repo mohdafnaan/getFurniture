@@ -10,7 +10,7 @@ const MainLayout = ({ children }) => {
             </main>
             <footer className="bg-gray-900 text-white py-6">
                 <div className="container mx-auto px-4 text-center">
-                    <p>&copy; {new Date().getFullYear()} GetFurniture. All rights reserved.</p>
+                    <p>&copy; {new Date().getFullYear()} GetFurnitures. All rights reserved.</p>
                 </div>
             </footer>
             <Toaster position="top-right" />

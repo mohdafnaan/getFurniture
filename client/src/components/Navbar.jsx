@@ -20,7 +20,7 @@ const Navbar = () => {
                 <div className="flex justify-between h-16">
                     <div className="flex items-center">
                         <Link to="/" className="flex-shrink-0 flex items-center">
-                            <span className="font-bold text-2xl bg-gradient-to-r from-amber-700 to-orange-600 bg-clip-text text-transparent">GetFurniture</span>
+                            <span className="font-bold text-2xl bg-gradient-to-r from-amber-700 to-orange-600 bg-clip-text text-transparent">GetFurnitures</span>
                         </Link>
                     </div>
 
