@@ -278,16 +278,19 @@ const Home = () => {
                   name: "Living Room",
                   description: "Sofas, coffee tables, TV units & more",
                   gradient: "from-amber-100 to-orange-100",
+                  img : "../../public/living room.jpg"
                 },
                 {
                   name: "Bedroom",
                   description: "Beds, wardrobes, nightstands & more",
                   gradient: "from-orange-100 to-red-100",
+                  img : "../../public/bed room.jpg"
                 },
                 {
                   name: "Dining",
                   description: "Dining tables, chairs, cabinets & more",
                   gradient: "from-amber-100 to-yellow-100",
+                  img : "../../public/dining area.jpg"
                 },
               ].map((category, index) => (
                 <motion.div
@@ -298,8 +301,8 @@ const Home = () => {
                   transition={{ delay: index * 0.1, duration: 0.5 }}
                   className={`bg-gradient-to-br ${category.gradient} p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer group`}
                 >
-                  <div className="h-48 bg-white/50 rounded-lg mb-6 flex items-center justify-center backdrop-blur-sm group-hover:bg-white/70 transition-colors duration-300">
-                    <span className="text-6xl">🪑</span>
+                  <div className="h-48 bg-white/50 rounded-lg mb-6 overflow-hidden backdrop-blur-sm group-hover:bg-white/70 transition-colors duration-300">
+                    <img src={category.img} alt={category.name} className="w-full h-full object-cover" />
                   </div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-2">
                     {category.name}
