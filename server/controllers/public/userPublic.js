@@ -1,8 +1,10 @@
 import express from "express";
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import userModel from "../../Models/User/User.js";
 import sendMail from "../../utils/mailer.js";
+import passResetModel from "../../Models/User/Reset.js";
 
 const router = express.Router();
 
@@ -107,4 +109,58 @@ router.post("/user-login",async(req,res)=>{
 })
 
 
+// forgot password link to email
+router.post("/forgot-password",async (req,res)=>{
+    try {
+        let email = req.body.email;
+        let user = await userModel.findOne({email})
+        if(!user){
+            return res.status(400).json({message : "user not found"})
+        }
+
+        const resetToken = crypto.randomBytes(32).toString("hex");
+
+        await passResetModel.insertOne({userId : user._id,token : resetToken,expiresAt : Date.now() + 10 * 60 * 1000})
+        const resetUrl = `${process.env.FRONTENDURL}/public/reset-password/${resetToken}`
+        await sendMail(
+            email,
+            "Password Reset",
+            `<p>Hello <b>${user.name}</b>,</p>
+             <p>You requested to reset your password. Please use the link below to reset your password:</p>
+             <a href="${resetUrl}" style="display: inline-block; padding: 12px 24px; background-color: #4F46E5; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; margin-top: 20px;">Reset Password</a>
+             <p style="color: #6b7280; font-size: 14px;">This link will expire in 10 minutes. If you didn't request this, please ignore this email.</p>
+             <p>Best Regards,<br><b>GetFurniture Team</b></p>`,
+            true
+          );
+          res.status(200).json({message : "Password reset link sent to your email"})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json(error)
+    }
+})
+
+// reset password
+router.post("/reset-password/:token",async (req,res)=>{
+    try {
+        const {password} = req.body;
+        const resetRecord = await passResetModel.findOne({
+            token : req.params.token,
+            expiresAt : {$gt : Date.now()}
+        });
+        if(!resetRecord){
+            return res.status(400).json({message : "Invalid or expired reset token"})
+        }
+        const user = await userModel.findById(resetRecord.userId)
+        if(!user){
+            return res.status(400).json({message : "user not found"})
+        }
+        let updatedPass = await bcrypt.hash(password,10);
+        await userModel.updateOne({_id :user._id},{$set:{password : updatedPass}})
+        await passResetModel.deleteOne({_id : resetRecord._id})
+        res.status(200).json({message : "Password reset successfully"})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json(error)
+    }
+})
 export default router;

@@ -1,5 +1,5 @@
 import express from "express";
-
+import bcrypt from "bcrypt"
 import userModel from "../../Models/User/User.js";
 import productModel from "../../Models/Products/Product.js";
 import orderModel from "../../Models/Orders/Orders.js";
@@ -212,4 +212,45 @@ router.delete("/cancel-order/:orderid", async (req, res) => {
   }
 });
 
+
+router.post("/update-user",async (req,res)=>{
+  try {
+  let user = await userModel.findOne({_id : req.user.userId});
+  if(!user){
+    return res.status(400).json({message : "user not found"})
+  };
+  let {userInput} = req.body;
+
+  await userModel.updateOne({_id : user._id},{$set : userInput});
+  res.status(200).json({message : "user updated successfully"});
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error)
+  }
+    
+})
+
+router.post("/update-password",async(req,res)=>{
+  try {
+    let user = await userModel.findOne({_id:req.user.userId})
+    if(!user){
+      return res.status(400).json({message : "user not found"})
+    }
+    let {oldPassword,newPassword} = req.body;
+    if(!oldPassword || !newPassword){
+      return res.status(400).json({message : "please provide old and new password"})
+    }
+    let isPasswordValid = await bcrypt.compare(oldPassword,user.password);
+    if(!isPasswordValid){
+      return res.status(400).json({message : "invalid old password"})
+    }
+    user.password = await bcrypt.hash(newPassword,10);
+    await user.save();
+    res.status(200).json({message : "password updated successfully"})
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error)
+  }
+})
 export default router;
