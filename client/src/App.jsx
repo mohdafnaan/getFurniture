@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import VerifyOtp from "./pages/VerifyOtp";
+import ResetPassword from "./pages/ResetPassword";
 import Favorites from "./pages/user/Favorites";
 import UserOrders from "./pages/user/UserOrders";
 import UserProfile from "./pages/user/UserProfile";
@@ -24,6 +25,8 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/verify-otp" element={<VerifyOtp />} />
+        <Route path="/public/reset-password/:token" element={<ResetPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
 
         {/* User Routes - Ideally should be protected route components */}
         <Route path="/favorites" element={<Favorites />} />
